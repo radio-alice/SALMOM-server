@@ -1,0 +1,14 @@
+{
+  "name": "salmom-server",
+  "version": "1.0.0",
+  "description": "server for the salmom",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/radio-alice/SALMOM-server.git"
+  },
+  "dependencies": {
+    "express": "^4.15.3",
+    "socket.io": "^2.0.1"
+  }
+}

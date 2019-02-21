@@ -14,7 +14,7 @@ const wss = new WebSocket.Server({ server }, () => {
 
 var clients = [];
 
-app.use('/salmom', express.static(__dirname);
+app.use(express.static('views'));
 
 app.get('/salmom', function(req, res){
     res.sendfile('start.html');

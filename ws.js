@@ -3,20 +3,15 @@ const WebSocket = require('ws');
 const https = require('https');
 const app = express();
 const router = express.Router();
-
 const fs = require('fs');
 
-const options = {
-  key: fs.readFileSync('ssl/privkey.pem'),
-  cert: fs.readFileSync('ssl/fullchain.pem')
-};
-
-const server = https.createServer(options, app);
 const port = 8080;
 
-const wss = new WebSocket.Server({ server }, () => {
-  console.log('listening on ' + port);
+const server = new https.createServer({
+  cert: fs.readFileSync('/etc/letsencrypt/live/shrmn.toys/cert.pem'),
+  key: fs.readFileSync('/etc/letsencrypt/live/shrmn.toys/key.pem')
 });
+const wss = new WebSocket.Server({ server });
 
 var clients = [];
 

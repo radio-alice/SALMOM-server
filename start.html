@@ -2,8 +2,40 @@
 <html>
   <head>
     <script src="client.js"></script>
+    <style>
+      #main{
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+     }
+      #controller{
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      button{
+        font-size: 60px;
+      }
+      #start{
+        margin: auto;
+        margin-top: 150px;
+        margin-bottom: 100px;
+      }
+      #lr{margin: auto;}
+    </style>
   </head>
   <body>
-
+    <div id="main">
+      <div id="start"><button id="startButton" onclick="start()">START</button></div>
+      <div id="controller">
+        <div><button id="up" onclick="move(0,1)">^</button></div>
+        <div id="lr">
+          <button id="left" onclick="move(-1,0)"><</button>
+          <button id="right" onclick="move(1,0)">></button>
+        </div>
+        <div><button id="down" onclick="move(0,-1)">v</button></div>
+    </div>
   </body>
 </html>

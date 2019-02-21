@@ -10,7 +10,7 @@ const wss = new WebSocket.Server({ server }, () => {
 
 var clients = [];
 
-app.get('/', function(req, res){
+app.get('/salmom', function(req, res){
     res.sendfile('start.html');
 });
 

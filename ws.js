@@ -2,13 +2,19 @@ const express = require('express');
 const WebSocket = require('ws');
 const http = require('http');
 const app = express();
+const router = express.Router();
 const server = http.createServer(app);
 const port = 8080;
+
+
+
 const wss = new WebSocket.Server({ server }, () => {
   console.log('listening on ' + port);
 });
 
 var clients = [];
+
+app.use('/salmom', express.static(__dirname);
 
 app.get('/salmom', function(req, res){
     res.sendfile('start.html');

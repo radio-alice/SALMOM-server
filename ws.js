@@ -8,7 +8,7 @@ const fs = require('fs');
 const port = 8080;
 
 const server = new https.createServer({
-  cert: fs.readFileSync(__dirname + '/ssl/cert.pem'),
+  cert: fs.readFileSync(__dirname + '/ssl/fullchain.pem'),
   key: fs.readFileSync(__dirname + '/ssl/key.pem')
 });
 const wss = new WebSocket.Server({ server });

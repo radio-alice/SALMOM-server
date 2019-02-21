@@ -7,8 +7,8 @@ const router = express.Router();
 const fs = require('fs');
 
 const options = {
-  key: fs.readFileSync('/etc/letsencrypt/live/shrmn.toys/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/shrmn.toys/cert.pem')
+  key: fs.readFileSync('ssl/privkey.pem'),
+  cert: fs.readFileSync('ssl/fullchain.pem')
 };
 
 const server = https.createServer(options, app);

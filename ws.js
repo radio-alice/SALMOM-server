@@ -17,7 +17,7 @@ var clients = [];
 app.use(express.static('views'));
 
 app.get('/salmom', function(req, res){
-    res.sendfile('start.html');
+    res.sendfile('/views/start.html');
 });
 
 wss.on('connection', function connection(ws, req) {

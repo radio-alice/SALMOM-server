@@ -1,27 +1,29 @@
 const express = require('express');
-const WebSocket = require('ws');
-const https = require('http');
-const app = express();
-const router = express.Router();
+const WebSocketServer = require('ws').Server;
+const https = require('https');
 const fs = require('fs');
 
-const port = 8080;
+var options = {
+                  cert: fs.readFileSync(__dirname + '/ssl/cert.pem'),
+                  key: fs.readFileSync(__dirname + '/ssl/privkey.pem'),
+                }
 
-// const options = {
-//                   cert: fs.readFileSync(__dirname + '/ssl/cert.pem'),
-//                   key: fs.readFileSync(__dirname + '/ssl/privkey.pem'),
-//                   ca: fs.readFileSync(__dirname + '/ssl/chain.pem')
-//                 }
-const server = https.createServer(app);
-const wss = new WebSocket.Server({ server: server });
-
-var clients = [];
-
+const app = express();
 app.use('/salmom', express.static('views'));
-
 app.get('/salmom', function(req, res){
     res.sendFile(__dirname + '/views/start.html');
 });
+
+var port = 8080;
+
+var sServer = https.createServer(options, app);
+sServer.listen(port, () => {
+    console.log(`Server started on port ${port} :)`);
+});
+
+var wss = WebSocketServer({ server: sServer });
+
+var clients = [];
 
 wss.on('connection', function connection(ws, req) {
   console.log("CONNECTION");
@@ -41,8 +43,4 @@ wss.on('connection', function connection(ws, req) {
       }
     }
   });
-});
-
-server.listen(port, () => {
-    console.log(`Server started on port ${port} :)`);
 });

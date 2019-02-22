@@ -1,5 +1,5 @@
 const port = 8080;
-var socket = new WebSocket("ws://shrmn.toys/salmom");
+var socket = new WebSocket("wss://shrmn.toys/salmom");
 
 function start(){
   socket.send("START");

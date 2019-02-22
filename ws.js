@@ -1,7 +1,8 @@
 const express = require('express');
 const WebSocketServer = require('ws').Server;
-const https = require('https');
+const https = require('http');
 const fs = require('fs');
+var port = 8080;
 
 var options = {
                   cert: fs.readFileSync(__dirname + '/ssl/cert.pem'),
@@ -13,8 +14,6 @@ app.use('/salmom', express.static('views'));
 app.get('/salmom', function(req, res){
     res.sendFile(__dirname + '/views/start.html');
 });
-
-var port = 8080;
 
 var sServer = https.createServer(options, app);
 sServer.listen(port, () => {

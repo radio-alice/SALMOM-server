@@ -21,7 +21,7 @@ sServer.listen(port, () => {
     console.log(`Server started on port ${port} :)`);
 });
 
-var wss = WebSocketServer({ server: sServer });
+var wss = new WebSocketServer({ server: sServer });
 
 var clients = [];
 

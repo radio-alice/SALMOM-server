@@ -41,7 +41,7 @@ wss.on('connection', function connection(ws, req) {
       if(clients[i].readyState === 1){
         let json = JSON.stringify({
           position: message.toString().split("_")[0],
-          id: clientId[i];
+          id: clientId[i]
         });
         clients[i].send(json);
       }

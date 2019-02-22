@@ -1,18 +1,18 @@
 const express = require('express');
 const WebSocket = require('ws');
-const https = require('https');
+const https = require('http');
 const app = express();
 const router = express.Router();
 const fs = require('fs');
 
 const port = 8080;
 
-const options = {
-                  cert: fs.readFileSync(__dirname + '/ssl/cert.pem'),
-                  key: fs.readFileSync(__dirname + '/ssl/privkey.pem'),
-                  ca: fs.readFileSync(__dirname + '/ssl/chain.pem')
-                }
-const server = https.createServer(options, app);
+// const options = {
+//                   cert: fs.readFileSync(__dirname + '/ssl/cert.pem'),
+//                   key: fs.readFileSync(__dirname + '/ssl/privkey.pem'),
+//                   ca: fs.readFileSync(__dirname + '/ssl/chain.pem')
+//                 }
+const server = https.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 var clients = [];

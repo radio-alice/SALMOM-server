@@ -1,4 +1,3 @@
-const WebSocket = require('ws');
 const port = 8080;
 var socket = new WebSocket("ws://localhost/" + port);
 

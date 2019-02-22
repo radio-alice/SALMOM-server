@@ -35,10 +35,12 @@ wss.on('connection', function connection(ws, req) {
     for (var i = 0; i < clients.length; i++) {
 
       if(clients[i].readyState === 1){
-        clients[i].send(JSON.stringify({
+        let json = JSON.stringify({
           position: message.toString().split("_")[0],
           id: req.connection.remoteAddress
-        }));
+        });
+        console.log(json);
+        clients[i].send(json);
       }
     }
   });

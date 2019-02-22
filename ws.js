@@ -13,7 +13,7 @@ const options = {
                   ca: fs.readFileSync(__dirname + '/ssl/chain.pem')
                 }
 const server = https.createServer(app);
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ server: server });
 
 var clients = [];
 

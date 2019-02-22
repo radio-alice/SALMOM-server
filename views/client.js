@@ -1,5 +1,6 @@
+const WebSocket = require('ws');
 const port = 8080;
-var socket = new WebSocket("ws://localhost:" + port);
+var socket = new WebSocket("ws://localhost/" + port);
 
 function start(){
   socket.send("START");

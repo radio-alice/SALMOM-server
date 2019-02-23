@@ -30,7 +30,7 @@ wss.on('connection', function connection(ws, req) {
   console.log("CONNECTION");
   clients.push(ws);
 
-  let clientId = uniqid();
+  let clientId = uniqid(rand(10000,99999));
   clientIds.push(clientId);
 
   ws.on('message', function incoming(message) {

@@ -2,7 +2,7 @@ const express = require('express');
 const WebSocketServer = require('ws').Server;
 const https = require('http');
 const fs = require('fs');
-const shortid = require('shortid');
+const crypto = require('crypto');
 var port = 8080;
 
 var options = {
@@ -30,7 +30,7 @@ wss.on('connection', function connection(ws, req) {
   console.log("CONNECTION");
   clients.push(ws);
 
-  let clientId = shortid.generate();
+  let clientId = crypto.randomBytes(16).toString("hex");
   clientIds.push(clientId);
 
   ws.on('message', function incoming(message) {

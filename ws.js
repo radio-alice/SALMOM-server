@@ -32,7 +32,8 @@ wss.on('connection', function connection(ws, req) {
 
   let clientId = crypto.randomBytes(16).toString("hex");
   clientIds.push(clientId);
-
+  console.log(clientId);
+  
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);
 

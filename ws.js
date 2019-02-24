@@ -43,7 +43,7 @@ wss.on('connection', function connection(ws, req) {
           position: message.toString().split("_")[0],
           id: clientIds[i]
         });
-        console.log(clientIds[i])
+        console.log(json)
         clients[i].send(json);
       }
     }

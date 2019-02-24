@@ -32,18 +32,18 @@ wss.on('connection', function connection(ws, req) {
 
   let clientId = crypto.randomBytes(16).toString("hex");
   clientIds.push(clientId);
-  console.log(clientId);
-  
+  console.log(clientIds);
+
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);
 
-    for (var i = 0; i < clients.length; i++) {
-
+    for (let i = 0; i < clients.length; i++) {
       if(clients[i].readyState === 1){
         let json = JSON.stringify({
           position: message.toString().split("_")[0],
           id: clientIds[i]
         });
+        console.log(clientIds[i])
         clients[i].send(json);
       }
     }

@@ -4,7 +4,7 @@ socket.addEventListener('message', function (event) {
   alert(event.data);
 });
 socket.addEventListener('close', function (event) {
-  console.log(event.data);
+  console.log(event);
 });
 
 function start(){

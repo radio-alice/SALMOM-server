@@ -3,7 +3,7 @@ var socket = new WebSocket("wss://shrmn.toys/salmom");
 
 function start(){
   if (socket.readyState == socket.OPEN){
-    socket.send("START");
+    socket.send("player_START");
     let element = document.getElementById('startButton');
     destroy(element);
   }
@@ -15,6 +15,6 @@ function destroy(element){
 
 function move(x, y) {
   if (socket.readyState == socket.OPEN){
-    socket.send(x+','+y+',0')
+    socket.send('player_'+x+','+y+',0')
   }
 }

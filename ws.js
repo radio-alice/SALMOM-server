@@ -61,7 +61,14 @@ wss.on('connection', function connection(ws, req) {
   });
 
   ws.on('close', function close(){
-    if (!(thisClient.game)) {
+    // if the game closed, reset clients array
+    if (thisClient.game) {
+      clients.forEach(function() {
+        this.ws.send('Game has closed, refresh your browser window or lose hope.');
+      });
+      clients = [];
+    }
+    else {
       //tell unity to remove player
       playerMsg(clientId, 'close');
       //remove player from clients array
@@ -80,7 +87,6 @@ class Client {
 
 function gameInit(gameId) {
   clients.find(obj => obj.id == gameId).game = true;
-  console.log("game recognized");
 }
 
 function gameMsg(playerId, msgForPlayer) {

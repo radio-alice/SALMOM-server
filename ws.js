@@ -105,7 +105,7 @@ function gameMsg(playerId, msgForPlayer) {
 
 function playerMsg(playerId, msgPosition) {
   let games = clients.filter(obj => obj.game);
-  if (games != []){
+  if (games != []) {
     for (let i = 0; i < games.length; i++) {
       if(games[i].ws.readyState === 1){
         let json = JSON.stringify({
@@ -117,6 +117,8 @@ function playerMsg(playerId, msgPosition) {
       }
     }
   } else {
-    gameMsg(playerId, 'refresh the browser and wait for the game to start this time');
+    clients.find(obj => obj.id == playerId).ws
+           .send('refresh the browser and wait for the game to start this time');
+    }
   }
 }

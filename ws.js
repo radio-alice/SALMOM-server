@@ -1,4 +1,5 @@
 const express = require('express');
+const WebSocket = require('ws');
 const playerSocketServer = require('ws').Server;
 const https = require('http');
 const fs = require('fs');

@@ -105,15 +105,18 @@ function gameMsg(playerId, msgForPlayer) {
 
 function playerMsg(playerId, msgPosition) {
   let games = clients.filter(obj => obj.game);
-
-  for (let i = 0; i < games.length; i++) {
-    if(games[i].ws.readyState === 1){
-      let json = JSON.stringify({
-        position: msgPosition,
-        id: playerId
-      });
-      games[i].ws.send(json);
-      console.log("player: " + playerId + " sent " + msgPosition);
+  if (games != undefined){
+    for (let i = 0; i < games.length; i++) {
+      if(games[i].ws.readyState === 1){
+        let json = JSON.stringify({
+          position: msgPosition,
+          id: playerId
+        });
+        games[i].ws.send(json);
+        console.log("player: " + playerId + " sent " + msgPosition);
+      }
     }
+  } else {
+    gameMsg(playerId, 'refresh the browser and wait for the game to start this time');
   }
 }

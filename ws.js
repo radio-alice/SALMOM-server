@@ -119,5 +119,6 @@ function playerMsg(playerId, msgPosition) {
   } else {
     clients.find(obj => obj.id == playerId).ws
            .send('refresh the browser and wait for the game to start this time');
+    console.log('scolded player'); 
   }
 }

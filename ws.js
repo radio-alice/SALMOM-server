@@ -107,7 +107,7 @@ function playerMsg(playerId, msgPosition) {
   let games = clients.filter(obj => obj.game);
   if (games === undefined || games.length == 0) {
     let playerWS = clients.find(obj => obj.id == playerId).ws;
-    if (playerWS != undefined){
+    if (playerWS.readyState === 1){
       playerWS.send('refresh the browser and wait for the game to start this time');
       playerWS.close();
     }

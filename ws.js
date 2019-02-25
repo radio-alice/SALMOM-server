@@ -107,6 +107,7 @@ function playerMsg(playerId, msgPosition) {
   console.log('player msg received');
 // TODO: figure out what is causing neither if() nor else to fire when no game
   let games = clients.filter(obj => obj.game);
+  console.log(games);
   if (games == [] || games == undefined) {
     clients.find(obj => obj.id == playerId).ws
            .send('refresh the browser and wait for the game to start this time');

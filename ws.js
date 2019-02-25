@@ -105,11 +105,12 @@ function gameMsg(playerId, msgForPlayer) {
 
 function playerMsg(playerId, msgPosition) {
   let games = clients.filter(obj => obj.game);
-  console.log(games);
   if (games === undefined || games.length == 0) {
-    clients.find(obj => obj.id == playerId).ws
-           .send('refresh the browser and wait for the game to start this time')
-           .close();
+    let playerWS = clients.find(obj => obj.id == playerId).ws;
+    if (playerWS != undefined){
+      playerWS.send('refresh the browser and wait for the game to start this time');
+      playerWS.close();
+    }
   } else {
     for (let i = 0; i < games.length; i++) {
       if(games[i].ws.readyState === 1){

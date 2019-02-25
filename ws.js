@@ -64,13 +64,14 @@ wss.on('connection', function connection(ws, req) {
     // if the game closed, reset clients array
     if (thisClient.game) {
       console.log('game closed');
-      clients.forEach(function() {
-        if (this.ws != undefined){
-          this.ws.send('Game has closed, refresh your browser window or lose hope.');
-          this.ws.close();
+      for (let i = 0; i < clients.length; i++){
+        if (clients[i].ws.readyState === WebSocket.OPEN){
+          clients[i].ws.send('Game has closed, refresh your browser window or lose hope.');
+          clients[i].ws.close();
           console.log('player closed')
         }
-      });
+      }
+      clients = [];
     } else {
       console.log('player closed');
       //tell unity to remove player

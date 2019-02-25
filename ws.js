@@ -36,16 +36,11 @@ wss.on('connection', function connection(ws, req) {
 
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);
-
-    for (let i = 0; i < clients.length; i++) {
-      if(clients[i].readyState === 1){
-        let json = JSON.stringify({
-          position: message.toString().split("_")[0],
-          id: clientIds[i]
-        });
-        console.log(json)
-        clients[i].send(json);
-      }
-    }
+    let json = JSON.stringify({
+      position: message.toString().split("_")[0],
+      id: clientIds[i]
+    });
+    console.log(json);
+    clients[i].send(json);
   });
 });

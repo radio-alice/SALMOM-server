@@ -105,7 +105,7 @@ function gameMsg(playerId, msgForPlayer) {
 
 function playerMsg(playerId, msgPosition) {
   let games = clients.filter(obj => obj.game);
-  if (games != undefined){
+  if (games != []){
     for (let i = 0; i < games.length; i++) {
       if(games[i].ws.readyState === 1){
         let json = JSON.stringify({

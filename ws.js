@@ -105,7 +105,7 @@ function gameMsg(playerId, msgForPlayer) {
 
 function playerMsg(playerId, msgPosition) {
   let games = clients.filter(obj => obj.game);
-  if (games = []) {
+  if (games == [] || games == undefined) {
     clients.find(obj => obj.id == playerId).ws
            .send('refresh the browser and wait for the game to start this time');
     console.log('scolded player');

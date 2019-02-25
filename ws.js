@@ -59,6 +59,15 @@ wss.on('connection', function connection(ws, req) {
       playerMsg(clientId, msgTwo);
     }
   });
+
+  ws.on('close', function close(){
+    if (!(thisClient.game)) {
+      //tell unity to remove player
+      playerMsg(clientId, 'close');
+      //remove player from clients array
+      clients = clients.filter(obj => obj.id != clientId);
+    }
+  })
 });
 
 class Client {
@@ -92,7 +101,7 @@ function playerMsg(playerId, msgPosition) {
         id: playerId
       });
       games[i].ws.send(json);
-      console.log("player: " + playerId + "sent " + msgPosition);
+      console.log("player: " + playerId + " sent " + msgPosition);
     }
   }
 }

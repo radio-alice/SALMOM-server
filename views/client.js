@@ -1,5 +1,8 @@
-const port = 8080;
 var socket = new WebSocket("wss://shrmn.toys/salmom");
+
+socket.addEventListener('message', function (event) {
+  alert(event.data);
+});
 
 function start(){
   if (socket.readyState == socket.OPEN){

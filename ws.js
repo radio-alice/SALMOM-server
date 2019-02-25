@@ -65,7 +65,9 @@ wss.on('connection', function connection(ws, req) {
     if (thisClient.game) {
       console.log("game closed");
       clients.forEach(function() {
-        this.ws.send('Game has closed, refresh your browser window or lose hope.');
+        if (this.ws != undefined){
+          this.ws.send('Game has closed, refresh your browser window or lose hope.');  
+        }
       });
       clients = [];
     } else {

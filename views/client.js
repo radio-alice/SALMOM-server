@@ -1,8 +1,5 @@
 var socket = new WebSocket("wss://shrmn.toys/salmom");
-window.onload = function() {
-    var spriteDiv = document.getElementById('start');
-    console.log(spriteDiv);
-}
+
 socket.addEventListener('message', function (event) {
   let msgType = event.data.toString().split("_")[0];
   let msgContent = event.data.toString().split("_")[1];
@@ -25,8 +22,10 @@ socket.addEventListener('close', function (event) {
 function start(){
   if (socket.readyState == socket.OPEN){
     socket.send("player_START");
-    let element = document.getElementById('startButton');
-    destroy(element);
+    var spriteDiv = document.getElementById('start');
+    while (spriteDiv.firstChild) {
+      spriteDiv.removeChild(spriteDiv.firstChild);
+    }
   }
 }
 

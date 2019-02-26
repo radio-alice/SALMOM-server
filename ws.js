@@ -97,12 +97,12 @@ function gameMsg(playerId, msgForPlayer) {
 }
 
 function playerInit(playerObj){
-  playerMsg(playerObj, 'START');
   let sprite = chooseSprite(Math.random());
   playerObj.sprite = sprite;
   if (playerObj.ws.readyState === 1){
     playerObj.ws.send('s_'+sprite);
   }
+  playerMsg(playerObj, 'START');
 }
 
 function playerMsg(playerObj, msgPosition) {

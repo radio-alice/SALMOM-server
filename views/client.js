@@ -1,10 +1,12 @@
 var socket = new WebSocket("wss://shrmn.toys/salmom");
 window.onload = function() {
     var spriteDiv = document.getElementById('start');
+    console.log(spriteDiv);
 }
 socket.addEventListener('message', function (event) {
   let msgType = event.data.toString().split("_")[0];
   let msgContent = event.data.toString().split("_")[1];
+  console.log(msgType + ' ' + msgContent);
 
   if (msgType == 'm') {
     alert(msgContent);

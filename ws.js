@@ -31,8 +31,8 @@ wss.on('connection', function connection(ws, req) {
   //assign unique id
   let clientId = crypto.randomBytes(16).toString("hex");
   // declare and push new client (initialize as player)
-  let thisClient = new Client (ws, clientId, false);
-  clients.push(thisClient);
+  let tempClient = new Client (ws, clientId, false);
+  clients.push(tempClient);
 
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);
@@ -44,10 +44,11 @@ wss.on('connection', function connection(ws, req) {
     //               no part 3
     let msgType = message.toString().split("_")[0];
     let msgTwo = message.toString().split("_")[1];
+    var thisClient = clients.find(obj => obj.id == clientId);
 
     // update object in clients array to be a game
     if (msgType == 'gameInit'){
-      gameInit(clientId);
+      thisClient.game = true;
     }
     // send message from game object to given player client recipient
     else if (msgType == 'game') {
@@ -56,7 +57,11 @@ wss.on('connection', function connection(ws, req) {
     }
     // send message from player client to game(s)
     else if (msgType == 'player') {
-      playerMsg(clientId, thisClient.ws, msgTwo);
+      if (msgTwo == 'START') {
+        playerInit(thisClient);
+      } else {
+        playerMsg(thisClient, msgTwo);
+      }
     }
   });
 
@@ -65,9 +70,9 @@ wss.on('connection', function connection(ws, req) {
       gameClose();
     } else { // if the player closed, remove player
       //tell unity to remove player
-      playerMsg(clientId, thisClient.ws, 'close');
+      playerMsg(thisClient, 'close');
       //remove player from clients array
-      clients = clients.filter(obj => obj.id != clientId);
+      clients = clients.filter(obj => obj.id != thisClient.id);
     }
   })
 });
@@ -80,10 +85,6 @@ class Client {
   }
 }
 
-function gameInit(gameId) {
-  clients.find(obj => obj.id == gameId).game = true;
-}
-
 function gameMsg(playerId, msgForPlayer) {
   let playerRecipient = clients.find(obj => obj.id == playerId);
   if (playerRecipient !== undefined){
@@ -92,25 +93,30 @@ function gameMsg(playerId, msgForPlayer) {
   console.log("game sent " + msgForPlayer + " to" + playerRecipient.id)
 }
 
-function playerMsg(playerId, playerWS, msgPosition) {
+function playerInit(playerObj){
+  let sprite = chooseSprite(Math.random());
+  playerObj.sprite = sprite;
+  playerObj.ws.send('s_'+sprite);
+  playerMsg(playerObj, 'START');
+}
+
+function playerMsg(playerObj, msgPosition) {
   let games = clients.filter(obj => obj.game);
   if (games === undefined || games.length == 0) {
-    if (playerWS.readyState === 1){
-      playerWS.send('m_refresh the browser and wait for the game to start this time');
-      playerWS.close();
+    if (playerObj.ws.readyState === 1){
+      playerObj.ws.send('m_refresh the browser and wait for the game to start this time');
+      playerObj.ws.close();
     }
   } else {
     for (let i = 0; i < games.length; i++) {
       if(games[i].ws.readyState === 1){
-        let sprite = chooseSprite(Math.random());
         let json = JSON.stringify({
           position: msgPosition,
-          id: playerId,
-          sprite: sprite
+          id: playerObj.id,
+          sprite: playerObj.sprite
         });
         games[i].ws.send(json);
-        playerWS.send('s_'+sprite);
-        console.log("player: " + playerId + " sent " + msgPosition);
+        console.log("player: " + playerObj.id + " sent " + msgPosition);
       }
     }
   }

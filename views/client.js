@@ -10,14 +10,7 @@ socket.addEventListener('message', function (event) {
     alert(msgContent);
   } else if (msgType == 's' && typeof spriteDiv !== 'undefined') {
     displayImg(msgContent, spriteDiv);
-    console.log('image: '+msgContent);
-  } else {
-    console.log('something went wrong');
   }
-});
-
-socket.addEventListener('close', function (event) {
-  console.log(event);
 });
 
 function start(){

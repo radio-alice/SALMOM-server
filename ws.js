@@ -66,14 +66,16 @@ wss.on('connection', function connection(ws, req) {
   });
 
   ws.on('close', function close(){
-    let thisClient = clients.find(obj => obj.id == clientId);
-    if (thisClient.game) { // if the game closed, reset clients array
-      gameClose();
-    } else { // if the player closed, remove player
-      //tell unity to remove player
-      playerMsg(thisClient, 'close');
-      //remove player from clients array
-      clients = clients.filter(obj => obj.id != thisClient.id);
+    if (clients.length > 0) {
+      let thisClient = clients.find(obj => obj.id == clientId);
+      if (thisClient.game) { // if the game closed, reset clients array
+        gameClose();
+      } else { // if the player closed, remove player
+        //tell unity to remove player
+        playerMsg(thisClient, 'close');
+        //remove player from clients array
+        clients = clients.filter(obj => obj.id != thisClient.id);
+      }
     }
   })
 });

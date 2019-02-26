@@ -4,8 +4,9 @@ const playerSocketServer = require('ws').Server;
 const https = require('http');
 const fs = require('fs');
 const crypto = require('crypto');
-var port = 8080;
 
+const sprites = fs.readdirSync('/views/emojis/');
+var port = 8080;
 var options = {cert: fs.readFileSync(__dirname + '/ssl/cert.pem'),
                 key: fs.readFileSync(__dirname + '/ssl/privkey.pem')}
 
@@ -34,9 +35,7 @@ wss.on('connection', function connection(ws, req) {
   clients.push(thisClient);
 
   ws.on('message', function incoming(message) {
-    //log message
     console.log('received: %s', message);
-
     // divide up parts of message
     //    part 1 indicates whether its a game or a player
     //    if game: part 2 indicates id of player to send message to,
@@ -46,7 +45,7 @@ wss.on('connection', function connection(ws, req) {
     let msgType = message.toString().split("_")[0];
     let msgTwo = message.toString().split("_")[1];
 
-    // update object in array to be a game object
+    // update object in clients array to be a game
     if (msgType == 'gameInit'){
       gameInit(clientId);
     }
@@ -57,26 +56,16 @@ wss.on('connection', function connection(ws, req) {
     }
     // send message from player client to game(s)
     else if (msgType == 'player') {
-      playerMsg(clientId, msgTwo);
+      playerMsg(clientId, thisClient.ws, msgTwo);
     }
   });
 
   ws.on('close', function close(){
-    // if the game closed, reset clients array
-    if (thisClient.game) {
-      console.log('game closed');
-      for (let i = 0; i < clients.length; i++){
-        if (clients[i].ws.readyState === WebSocket.OPEN){
-          clients[i].ws.send('Game has closed, refresh your browser window or lose hope.');
-          clients[i].ws.close();
-          console.log('player closed')
-        }
-      }
-      clients = [];
-    } else {
-      console.log('player closed');
+    if (thisClient.game) { // if the game closed, reset clients array
+      gameClose();
+    } else { // if the player closed, remove player
       //tell unity to remove player
-      playerMsg(clientId, 'close');
+      playerMsg(clientId, thisClient.ws, 'close');
       //remove player from clients array
       clients = clients.filter(obj => obj.id != clientId);
     }
@@ -103,24 +92,42 @@ function gameMsg(playerId, msgForPlayer) {
   console.log("game sent " + msgForPlayer + " to" + playerRecipient.id)
 }
 
-function playerMsg(playerId, msgPosition) {
+function playerMsg(playerId, playerWS, msgPosition) {
   let games = clients.filter(obj => obj.game);
   if (games === undefined || games.length == 0) {
-    let playerWS = clients.find(obj => obj.id == playerId).ws;
     if (playerWS.readyState === 1){
-      playerWS.send('refresh the browser and wait for the game to start this time');
+      playerWS.send('m_refresh the browser and wait for the game to start this time');
       playerWS.close();
     }
   } else {
     for (let i = 0; i < games.length; i++) {
       if(games[i].ws.readyState === 1){
+        let sprite = chooseSprite(Math.random());
         let json = JSON.stringify({
           position: msgPosition,
-          id: playerId
+          id: playerId,
+          sprite: sprite
         });
         games[i].ws.send(json);
+        playerWS.send('s_'+sprite);
         console.log("player: " + playerId + " sent " + msgPosition);
       }
     }
   }
+}
+
+function gameClose(){
+  console.log('game closed');
+  for (let i = 0; i < clients.length; i++){
+    if (clients[i].ws.readyState === WebSocket.OPEN){
+      clients[i].ws.send('m_Game has closed, refresh your browser window or lose hope.');
+      clients[i].ws.close();
+    }
+  }
+  clients = [];
+}
+
+function chooseSprite(rand){
+  let index = Math.floor(rand * sprites.length);
+  return (sprites[index]);
 }

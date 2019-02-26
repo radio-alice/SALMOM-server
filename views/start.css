@@ -1,0 +1,22 @@
+#main{
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#controller{
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+button{
+  font-size: 60px;
+}
+#start{
+  margin: auto;
+  margin-top: 150px;
+  margin-bottom: 100px;
+}
+#lr{margin: auto;}
+#label{margin: auto;}

@@ -87,7 +87,7 @@ function gameInit(gameId) {
 function gameMsg(playerId, msgForPlayer) {
   let playerRecipient = clients.find(obj => obj.id == playerId);
   if (playerRecipient !== undefined){
-    playerRecipient.ws.send(msgForPlayer);
+    playerRecipient.ws.send('m_' + msgForPlayer);
   }
   console.log("game sent " + msgForPlayer + " to" + playerRecipient.id)
 }

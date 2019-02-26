@@ -1,4 +1,5 @@
 var socket = new WebSocket("wss://shrmn.toys/salmom");
+var spriteDiv;
 
 socket.addEventListener('message', function (event) {
   let msgType = event.data.toString().split("_")[0];
@@ -22,7 +23,7 @@ socket.addEventListener('close', function (event) {
 function start(){
   if (socket.readyState == socket.OPEN){
     socket.send("player_START");
-    var spriteDiv = document.getElementById('start');
+    spriteDiv = document.getElementById('start');
     while (spriteDiv.firstChild) {
       spriteDiv.removeChild(spriteDiv.firstChild);
     }

@@ -66,6 +66,7 @@ wss.on('connection', function connection(ws, req) {
   });
 
   ws.on('close', function close(){
+    var thisClient = clients.find(obj => obj.id == clientId);
     if (thisClient.game) { // if the game closed, reset clients array
       gameClose();
     } else { // if the player closed, remove player

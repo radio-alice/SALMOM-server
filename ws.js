@@ -129,5 +129,6 @@ function gameClose(){
 
 function chooseSprite(rand){
   let index = Math.floor(rand * sprites.length);
+  console.log('returned sprite: '+sprites[index]);
   return (sprites[index]);
 }

@@ -8,6 +8,7 @@ socket.addEventListener('message', function (event) {
     alert(msgContent);
   } else if (msgType == 's' && typeof spriteDiv !== 'undefined') {
     displayImg(msgContent, spriteDiv);
+    console.log('image: '+msgContent);
   }
 });
 

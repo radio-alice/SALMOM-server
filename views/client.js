@@ -21,7 +21,7 @@ function start(){
     let element = document.getElementById('startButton');
     destroy(element);
   }
-  var spriteDiv = getElementById('start');
+  var spriteDiv = document.getElementById('start');
 }
 
 function destroy(element){

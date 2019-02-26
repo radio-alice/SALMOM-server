@@ -5,7 +5,7 @@ const https = require('http');
 const fs = require('fs');
 const crypto = require('crypto');
 
-const sprites = fs.readdirSync('/views/emojis/');
+const sprites = fs.readdirSync(__dirname + '/views/emojis/');
 var port = 8080;
 var options = {cert: fs.readFileSync(__dirname + '/ssl/cert.pem'),
                 key: fs.readFileSync(__dirname + '/ssl/privkey.pem')}

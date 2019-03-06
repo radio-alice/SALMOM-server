@@ -10,15 +10,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  font-size: 240px;
+  font-size: 200px;
 }
 button{
-  font-size: 180px;
+  font-size: 100px;
 }
 #start{
   margin: auto;
-  margin-top: 150px;
-  margin-bottom: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 #lr{margin: auto;}
 #label{
